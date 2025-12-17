@@ -19,16 +19,13 @@ namespace webapi.Services
     {
         private readonly UsersContext _context;
         private readonly IConfiguration _configuration;
-        private readonly IPasswordHasher<Usuario> _passwordHasher;
 
         public LoginService(
             UsersContext context, 
-            IConfiguration configuration,
-            IPasswordHasher<Usuario> passwordHasher)
+            IConfiguration configuration)
         {
             _context = context!;
             _configuration = configuration!;
-            _passwordHasher = passwordHasher!;
         }
 
         public async Task<LoginResponseDto?> Login(LoginRequestDto request)
