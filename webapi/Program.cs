@@ -1,9 +1,12 @@
+using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.IdentityModel.Tokens;
 using ProyectoEF.Context;
 using System.Text;
 using webapi.Context;
 using webapi.Middlewares;
+using webapi.Models;
 using webapi.Services;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -37,6 +40,9 @@ builder.Services.AddControllers();
 // Learn more about configuring OpenAPI at https://aka.ms/aspnet/openapi
 builder.Services.AddOpenApi();
 
+builder.Services.AddScoped<IPasswordHasher<Usuario>, PasswordHasher<Usuario>>();
+builder.Services.AddScoped<IAuthenticationService, AuthenticationService>();
+builder.Services.AddScoped<ILoginService, LoginService>();
 builder.Services.AddScoped<IHelloWorldService, HelloWorldService>();
 builder.Services.AddScoped<ICategoriaService, CategoriaService>();
 builder.Services.AddScoped<ITareaService, TareaService>();
@@ -61,7 +67,7 @@ app.UseAuthentication();
 
 app.UseAuthorization();
 
-app.UseTimeMiddleware();
+//app.UseTimeMiddleware();
 
 app.MapControllers();
 

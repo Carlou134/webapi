@@ -1,10 +1,12 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
 using ProyectoEF.Context;
 using webapi.Services;
 
 namespace webapi.Controllers
 {
     [Route("api/[controller]")]
+    [Authorize]
     [ApiController]
     public class HelloWorldController : ControllerBase
     {

@@ -5,7 +5,7 @@ namespace ProyectoEF.Context
 {
     public class TareasContext : DbContext
     {
-        public TareasContext(DbContextOptions options) : base(options) { }
+        public TareasContext(DbContextOptions<TareasContext> options) : base(options) { }
 
         public DbSet<Tarea> Tarea { get; set; }
         public DbSet<Categoria> Categoria { get; set; }

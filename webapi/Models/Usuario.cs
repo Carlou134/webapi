@@ -6,6 +6,7 @@ namespace webapi.Models
     {
         public Guid UsuarioId { get; set; }
         public Guid RolId { get; set; }
+        public string NombreUsuario { get; set; } = string.Empty;
         public string Email { get; set; } = string.Empty;
         public string Password { get; set; } = string.Empty;
 
