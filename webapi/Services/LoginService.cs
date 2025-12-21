@@ -60,7 +60,8 @@ namespace webapi.Services
 
             var claims = new List<Claim>
             {
-                new Claim(ClaimTypes.NameIdentifier, usuario.NombreUsuario),
+                new Claim(ClaimTypes.NameIdentifier, usuario.UsuarioId.ToString()),
+                new Claim(ClaimTypes.Name, usuario.NombreUsuario),
                 new Claim(ClaimTypes.Email, usuario.Email),
                 new Claim(ClaimTypes.Role, usuario.Rol!.NombreRol)
             };

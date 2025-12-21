@@ -26,7 +26,6 @@
 
   <ItemGroup>
     <Folder Include="Features\Usuarios\Commands\DeleteUsuario\" />
-    <Folder Include="Features\Usuarios\Commands\UpdateUsuario\" />
   </ItemGroup>
 
 </Project>

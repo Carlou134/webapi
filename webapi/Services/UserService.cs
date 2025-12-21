@@ -1,9 +1,11 @@
 ﻿using AutoMapper;
 using MediatR;
 using Microsoft.EntityFrameworkCore;
+using System.Threading;
 using webapi.Context;
 using webapi.DTOs;
 using webapi.Features.Usuarios.Commands.CreateUsuario;
+using webapi.Features.Usuarios.Commands.UpdateUsuario;
 using webapi.Models;
 
 namespace webapi.Services
@@ -35,9 +37,9 @@ namespace webapi.Services
             return await _mediator.Send(request, cancellationToken);
         }
 
-        public Task Update(Guid id, Usuario usuario)
+        public async Task<OperationResult<bool>> Update(UpdateUsuarioCommand request, CancellationToken cancellationToken)
         {
-            throw new NotImplementedException();
+            return await _mediator.Send(request, cancellationToken);
         }
 
         public Task Delete(Guid id)
@@ -50,7 +52,7 @@ namespace webapi.Services
     {
         Task<IReadOnlyCollection<UsuarioDto>> GetUsuarios();
         Task<OperationResult<bool>> Save(CreateUsuarioCommand request, CancellationToken cancellationToken);
-        Task Update(Guid id, Usuario usuario);
+        Task<OperationResult<bool>> Update(UpdateUsuarioCommand usuario, CancellationToken cancellationToken);
         Task Delete(Guid id);
     }
 }

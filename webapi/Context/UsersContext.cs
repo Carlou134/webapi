@@ -56,5 +56,10 @@ namespace webapi.Context
                 usuario.HasData(Usuarios);
             });
         }
+
+        internal async Task FindAsync(Guid id)
+        {
+            throw new NotImplementedException();
+        }
     }
 }
