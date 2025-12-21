@@ -44,7 +44,7 @@ namespace webapi.Features.Usuarios.Commands.UpdateUsuario
 
         private async Task<bool> EmailUnico(
             UpdateUsuarioCommand command,
-            string nombre,
+            string email,
             CancellationToken cancellationToken)
         {
             return !await _context.Usuario

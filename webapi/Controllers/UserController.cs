@@ -1,8 +1,9 @@
 ﻿using Microsoft.AspNetCore.Authorization;
-using Microsoft.AspNetCore.Http.HttpResults;
 using Microsoft.AspNetCore.Mvc;
+using System.Runtime.InteropServices;
 using System.Security.Claims;
 using webapi.Features.Usuarios.Commands.CreateUsuario;
+using webapi.Features.Usuarios.Commands.DeleteUsuario;
 using webapi.Features.Usuarios.Commands.UpdateUsuario;
 using webapi.Services;
 
@@ -71,6 +72,27 @@ namespace webapi.Controllers
                 return Unauthorized("No tiene acceso a esta función");
             }
             catch(Exception ex)
+            {
+                return BadRequest(ex.Message);
+            }
+        }
+
+        [Authorize(Roles = "ADMIN,USER")]
+        [HttpDelete("eliminar/{id}")]
+        public async Task<IActionResult> EliminarUsuario([FromRoute] Guid id)
+        {
+            try
+            {
+                CancellationTokenSource cancellationToken = new();
+
+                if (GetCurrentRol() == "ADMIN" || GetCurrentUserId() == id)
+                {
+                    return Ok(await _userService.Delete(new DeleteUsuarioCommand(id), cancellationToken.Token));
+                }
+
+                return Unauthorized("No tiene permitido usar esta opción");
+            }
+            catch (Exception ex)
             {
                 return BadRequest(ex.Message);
             }

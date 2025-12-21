@@ -9,8 +9,6 @@ using System.Text;
 using webapi.Common.Behaviors;
 using webapi.Common.Filters;
 using webapi.Context;
-using webapi.Features.Usuarios.Commands.CreateUsuario;
-using webapi.Mappings.Auth;
 using webapi.Middlewares;
 using webapi.Services;
 
@@ -45,9 +43,9 @@ builder.Services.AddControllers();
 // Learn more about configuring OpenAPI at https://aka.ms/aspnet/openapi
 builder.Services.AddOpenApi();
 
-builder.Services.AddAutoMapper(cfg =>
+builder.Services.AddAutoMapper(config =>
 {
-    cfg.AddProfile<UsuarioMappingProfile>();
+    config.AddMaps(typeof(Program).Assembly);
 });
 
 builder.Services.AddControllers(options =>
@@ -59,7 +57,7 @@ builder.Services.AddValidatorsFromAssembly(typeof(Program).Assembly);
 
 builder.Services.AddMediatR(cfg =>
 {
-cfg.RegisterServicesFromAssembly(typeof(CreateUsuarioCommandHandler).Assembly);
+cfg.RegisterServicesFromAssembly(typeof(Program).Assembly);
 cfg.AddBehavior(typeof(IPipelineBehavior<,>), typeof(ValidationBehavior<,>));
 });
 

@@ -5,6 +5,7 @@ using System.Threading;
 using webapi.Context;
 using webapi.DTOs;
 using webapi.Features.Usuarios.Commands.CreateUsuario;
+using webapi.Features.Usuarios.Commands.DeleteUsuario;
 using webapi.Features.Usuarios.Commands.UpdateUsuario;
 using webapi.Models;
 
@@ -42,9 +43,9 @@ namespace webapi.Services
             return await _mediator.Send(request, cancellationToken);
         }
 
-        public Task Delete(Guid id)
+        public async Task<OperationResult<bool>> Delete(DeleteUsuarioCommand request, CancellationToken cancellationToken)
         {
-            throw new NotImplementedException();
+            return await _mediator.Send(request, cancellationToken);
         }
     }
 
@@ -52,7 +53,7 @@ namespace webapi.Services
     {
         Task<IReadOnlyCollection<UsuarioDto>> GetUsuarios();
         Task<OperationResult<bool>> Save(CreateUsuarioCommand request, CancellationToken cancellationToken);
-        Task<OperationResult<bool>> Update(UpdateUsuarioCommand usuario, CancellationToken cancellationToken);
-        Task Delete(Guid id);
+        Task<OperationResult<bool>> Update(UpdateUsuarioCommand request, CancellationToken cancellationToken);
+        Task<OperationResult<bool>> Delete(DeleteUsuarioCommand request, CancellationToken cancellationToken);
     }
 }
