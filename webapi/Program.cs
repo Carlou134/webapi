@@ -1,12 +1,17 @@
+using FluentValidation;
+using MediatR;
 using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.IdentityModel.Tokens;
 using ProyectoEF.Context;
 using System.Text;
+using webapi.Common.Behaviors;
+using webapi.Common.Filters;
 using webapi.Context;
+using webapi.Features.Usuarios.Commands.CreateUsuario;
+using webapi.Mappings.Auth;
 using webapi.Middlewares;
-using webapi.Models;
 using webapi.Services;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -40,11 +45,31 @@ builder.Services.AddControllers();
 // Learn more about configuring OpenAPI at https://aka.ms/aspnet/openapi
 builder.Services.AddOpenApi();
 
+builder.Services.AddAutoMapper(cfg =>
+{
+    cfg.AddProfile<UsuarioMappingProfile>();
+});
+
+builder.Services.AddControllers(options =>
+{
+    options.Filters.Add<ValidationExceptionFilter>();
+});
+
+builder.Services.AddValidatorsFromAssembly(typeof(Program).Assembly);
+
+builder.Services.AddMediatR(cfg =>
+{
+cfg.RegisterServicesFromAssembly(typeof(CreateUsuarioCommandHandler).Assembly);
+cfg.AddBehavior(typeof(IPipelineBehavior<,>), typeof(ValidationBehavior<,>));
+});
+
 builder.Services.AddScoped<IAuthenticationService, AuthenticationService>();
 builder.Services.AddScoped<ILoginService, LoginService>();
 builder.Services.AddScoped<IHelloWorldService, HelloWorldService>();
 builder.Services.AddScoped<ICategoriaService, CategoriaService>();
 builder.Services.AddScoped<ITareaService, TareaService>();
+builder.Services.AddScoped<IUserService, UserService>();
+
 
 var app = builder.Build();
 
