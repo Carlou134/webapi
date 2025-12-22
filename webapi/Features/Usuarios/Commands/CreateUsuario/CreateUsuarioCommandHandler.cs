@@ -1,16 +1,19 @@
 ﻿using MediatR;
 using webapi.Context;
 using webapi.Models;
+using webapi.Notifications.Usuario.UsuarioCreado;
 
 namespace webapi.Features.Usuarios.Commands.CreateUsuario
 {
     public class CreateUsuarioCommandHandler : IRequestHandler<CreateUsuarioCommand, OperationResult<bool>>
     {
         private readonly UsersContext _usersContext;
+        private readonly IMediator _mediator;
 
-        public CreateUsuarioCommandHandler(UsersContext usersContext)
+        public CreateUsuarioCommandHandler(UsersContext usersContext, IMediator mediator)
         {
             _usersContext = usersContext!;
+            _mediator = mediator!;
         }
 
         public async Task<OperationResult<bool>> Handle(CreateUsuarioCommand request, CancellationToken cancellationToken)
@@ -30,6 +33,7 @@ namespace webapi.Features.Usuarios.Commands.CreateUsuario
 
                 await _usersContext.AddAsync(usuario, cancellationToken).ConfigureAwait(false);
                 await _usersContext.SaveChangesAsync(cancellationToken).ConfigureAwait(false);
+                await _mediator.Publish(new UsuarioCreadoNotification(usuario.UsuarioId), cancellationToken);
 
                 result.Success = true;
                 result.Message = "Usuario registrado con éxito!";
