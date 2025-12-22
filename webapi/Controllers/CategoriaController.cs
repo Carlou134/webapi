@@ -1,4 +1,4 @@
-﻿using Microsoft.AspNetCore.Http;
+﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using ProyectoEF.Models;
 using webapi.Services;
@@ -6,6 +6,7 @@ using webapi.Services;
 namespace webapi.Controllers
 {
     [Route("api/[controller]")]
+    [Authorize]
     [ApiController]
     public class CategoriaController : ControllerBase
     {

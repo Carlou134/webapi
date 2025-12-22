@@ -1,10 +1,12 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
 using ProyectoEF.Context;
 using webapi.Services;
 
 namespace webapi.Controllers
 {
     [Route("api/[controller]")]
+    [Authorize]
     [ApiController]
     public class HelloWorldController : ControllerBase
     {
@@ -17,12 +19,14 @@ namespace webapi.Controllers
             dbContext = db;
         }
 
+        [Authorize(Roles = "ADMIN")]
         [HttpGet("[action]")]
         public IActionResult Get()
         {
             return Ok(helloWorldService.GetHelloWorld());
         }
 
+        [Authorize(Roles = "ADMIN")]
         [HttpGet("createdb")]
         public IActionResult CreateDatabase()
         {
